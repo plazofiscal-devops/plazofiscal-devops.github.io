@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlazoFiscal · No deadline slips by</title>
+<meta name="description" content="A Kubernetes platform for the tax deadlines of accounting firms, with rolling releases, scaling that follows the filing calendar, full observability and sign-in with a second factor, all proven on a three node cluster.">
+<meta name="theme-color" content="#121212">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script type="module" src="/src/main.js"></script>
+</head>
+<body class="is-loading">
+
+<div id="pre" aria-hidden="true">
+  <div class="dots pre-dots"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i></div>
+</div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand" aria-label="PlazoFiscal, back to top">
+      <span class="dots dots-s" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i></span>
+      <span class="word">Plazo<b>Fiscal</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#case">Case</a>
+      <a href="#platform">Platform</a>
+      <a href="#deploy">Deploy</a>
+      <a href="#scale">Scale</a>
+      <a href="#observe">Observe</a>
+      <a href="#signin">Sign-in</a>
+      <a href="#method">Method</a>
+      <a href="#evidence">Evidence</a>
+    </nav>
+    <a id="navRepo" class="btn btn-amber nav-cta" target="_blank" rel="noopener">View on GitHub</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero dark">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow rise">No deadline slips by.</p>
+        <h1 class="rise">A Kubernetes platform that keeps tax deadlines <em>on time.</em></h1>
+        <p class="hero-sub rise">PlazoFiscal helps small accounting firms in Colombia track the tax obligations of their clients. Its platform runs on a three node K3s cluster with rolling releases, scaling that follows the filing calendar, full observability and sign-in with a second factor.</p>
+        <div class="hero-actions rise">
+          <a href="#evidence" class="btn btn-amber">Watch the evidence<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#platform" class="btn btn-ghost">See the architecture</a>
+        </div>
+      </div>
+
+      <div class="cal rise" aria-label="The filing calendar of one month and the replicas it asks for">
+        <div class="cal-head"><span id="calMonth">November 2026</span><span class="cal-badge" id="calBadge">Window open</span></div>
+        <div class="cal-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-foot">
+          <div><span>Day</span><b class="mono" id="calDay">8</b></div>
+          <div><span>Load</span><b class="mono" id="calRps">15 req/s</b></div>
+          <div><span>Replicas</span><b class="mono" id="calRep">3</b></div>
+        </div>
+        <div class="pods" id="calPods" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="wrap"><div class="metrics" id="metrics"></div></div>
+  </section>
+
+  <!-- CASE -->
+  <section class="section" id="case">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">Firms miss deadlines <em>when they are busiest.</em></h2>
+        <p class="fade">Small accounting firms follow the deadlines of dozens of clients in spreadsheets. Load follows the filing calendar, so an outage during a window costs more than at any other time. The product is worth most exactly when its load is highest.</p>
+      </div>
+      <div class="facts" id="facts"></div>
+
+      <div class="season fade">
+        <div class="season-copy">
+          <h3>The calendar drives the load</h3>
+          <p>Pick a day of a month, or switch to the income tax season, to see the load the business case expects and the replicas the platform keeps ready for it.</p>
+          <div class="seg" role="tablist" aria-label="Month type">
+            <button type="button" role="tab" data-season="0" class="on" aria-selected="true">Regular month</button>
+            <button type="button" role="tab" data-season="1" aria-selected="false">August to October</button>
+          </div>
+          <div class="season-read">
+            <span class="badge" id="sBadge">Monthly filing window</span>
+            <div class="season-figs">
+              <div><b class="mono" id="sRps">15</b><span>requests per second</span></div>
+              <div><b class="mono" id="sRep">3</b><span>replicas per service</span></div>
+            </div>
+            <p id="sNote"></p>
+          </div>
+        </div>
+        <div class="month" id="month" role="grid" aria-label="Days of the month"></div>
+      </div>
+
+      <h3 class="sub fade">Three service objectives from the business case</h3>
+      <div class="objectives" id="objectives"></div>
+    </div>
+  </section>
+
+  <!-- APPLICATION -->
+  <section class="section tint" id="app">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">Five services keep the obligations <em>of each firm.</em></h2>
+        <p class="fade">An open source microservice example, adapted to tax obligations and moved to Redis. Each obligation has a client, a tax, a due date and a state, and the calendar marks the days with deadlines.</p>
+      </div>
+      <div class="app-grid">
+        <figure class="shot fade" data-zoom><img src="img/shots/frontend-obligations.webp" alt="The PlazoFiscal screen with obligations ordered by due date and a month calendar" loading="lazy"><figcaption>The screen of the accountant, in Spanish like every text the users see</figcaption></figure>
+        <div class="svc" id="services"></div>
+      </div>
+      <div class="video-row"><div class="vid" data-video="02"></div></div>
+    </div>
+  </section>
+
+  <!-- PLATFORM -->
+  <section class="section" id="platform">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">One machine runs the application <em>and every tool.</em></h2>
+        <p class="fade">k3d runs K3s as three Docker containers, one server and two agents, capped at 10 GiB. Three nodes give rolling updates, disruption budgets and the spread of replicas a real effect, and anyone with Docker can run it from a clean clone with make up.</p>
+      </div>
+      <div class="overview">
+        <figure class="diagram fade" data-zoom><img src="img/diagrams/platform-overview.webp" alt="Diagram of the whole platform on k3d, with the seven points of the course numbered" loading="lazy"><figcaption>Green arrows are requests, blue telemetry, orange alerts and the dashed purple arrow scaling. Click to open it full size.</figcaption></figure>
+        <ol class="legend" id="overviewLegend"></ol>
+      </div>
+
+      <h3 class="sub fade">Every tool has a pinned version and a clear role</h3>
+      <p class="sub-p fade">make platform installs each chart with helm upgrade --install and an exact version, next to its values file. A floating version once removed an API that Grafana needs, which is why nothing floats.</p>
+      <div class="stack" id="stack"></div>
+
+      <div class="capacity">
+        <div class="cap-copy fade">
+          <h3>Memory shaped the design more than anything else</h3>
+          <p>The reference machine has 8 cores and 13.5 GiB, and its desktop takes 3.8. With every tool on, the nodes use 7.2 GiB of their 10. Once, Keycloak, Grafana and Kibana started together, the load average reached 54 and the Kubernetes API stopped answering.</p>
+          <div class="measures" id="measures"></div>
+        </div>
+        <div class="cap-bars fade">
+          <span class="cap-l">Memory measured with kubectl top</span>
+          <div id="memBars"></div>
+          <div class="cap-total"><span>Total with every tool on</span><b class="mono">7.2 GiB of 10</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPLOY -->
+  <section class="section dark" id="deploy">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">Releases under load with <em>not one failed request.</em></h2>
+        <p class="fade">A rolling update replaces pods one at a time without lowering capacity. It is the native strategy of the Deployment, set here to maxSurge 1 and maxUnavailable 0, and the strategy assigned to the group.</p>
+      </div>
+
+      <div class="roll fade">
+        <div class="roll-stage" id="rollStage" aria-hidden="true"></div>
+        <ol class="roll-steps" id="rollSteps"></ol>
+      </div>
+
+      <div class="strategies" id="strategies"></div>
+
+      <div class="code-row">
+        <div class="code" id="codeRolling"></div>
+        <ol class="notes" id="rollingNotes"></ol>
+      </div>
+
+      <div class="proof" id="rollProof"></div>
+      <div class="runs-grid">
+        <div class="runs fade">
+          <div class="runs-head"><span>Releases during the load</span><span>Requests</span><span>Failed</span><span>p95</span></div>
+          <div id="runs"></div>
+        </div>
+        <div class="problem fade">
+          <span class="problem-l">Problem found</span>
+          <div class="ba"><b class="bad">Before · 6 failed</b><p>connection refused during the frontend release. The pod exited before Kubernetes removed its address from the endpoints.</p></div>
+          <div class="ba"><b class="good">After · 0 failed</b><p>Every service handles SIGTERM and waits 5 s in preStop, so it stops receiving traffic before it closes.</p></div>
+        </div>
+      </div>
+      <div class="video-row"><div class="vid" data-video="12"></div></div>
+
+      <div class="block" id="policies">
+        <h3 class="sub fade">Default deny, and every open path is proven</h3>
+        <p class="sub-p fade">One NetworkPolicy per service opens only the path it needs, and the rest of the traffic stays closed in both directions. K3s enforces policies with its embedded controller, so no extra agent runs on each node.</p>
+        <div class="np">
+          <div class="paths fade">
+            <div class="paths-head"><span></span><span>From</span><span>To</span><span>Port</span></div>
+            <div id="paths"></div>
+          </div>
+          <div class="np-side">
+            <div class="big fade"><b class="mono">31</b><span>paths allowed, denied and control, proven with make check-policies from the real pods</span></div>
+            <div class="big fade"><b class="mono">2</b><span>paths reported when one policy was removed on purpose, exactly the two it opened</span></div>
+          </div>
+        </div>
+        <div class="code-row">
+          <div class="code" id="codePolicy"></div>
+          <div>
+            <ol class="notes" id="policyNotes"></ol>
+            <div class="test fade"><h4>How make check-policies proves it</h4><ul id="policyTest"></ul></div>
+          </div>
+        </div>
+        <div class="video-row"><div class="vid" data-video="11"></div></div>
+      </div>
+
+      <div class="block" id="storage">
+        <h3 class="sub fade">Redis keeps obligations on a volume that outlives its pod</h3>
+        <p class="sub-p fade">todos-api keeps no state of its own. Each user is a hash in Redis, and Redis writes an append only file to a 1 GiB PersistentVolumeClaim of the local-path provisioner of K3s. The readiness of todos-api depends on Redis, so a pod with no Redis leaves the Service without restarting.</p>
+        <div class="trio" id="redis"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCALE -->
+  <section class="section" id="scale">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">Capacity rises before each deadline <em>and follows real load.</em></h2>
+        <p class="fade">The HPA of Kubernetes reacts after load rises. The filing calendar is known in advance, so KEDA 2.21 adds it to the HPA. It creates one HPA per served service with a CPU trigger and two calendar triggers in Bogotá time, and the HPA takes the one that asks for more replicas.</p>
+      </div>
+      <div class="scale-grid">
+        <div class="rules fade">
+          <h4>Replicas of frontend, auth-api and todos-api</h4>
+          <div id="scaleRules"></div>
+          <p class="rules-n">It scales down five minutes after a window or the load ends, so it does not oscillate.</p>
+        </div>
+        <div class="alts fade"><h4>Alternatives</h4><div id="scaleAlts"></div></div>
+      </div>
+      <div class="code-row">
+        <div class="code" id="codeKeda"></div>
+        <ol class="notes" id="kedaNotes"></ol>
+      </div>
+      <div class="proof light" id="scaleProof"></div>
+      <figure class="shot wide fade" data-zoom><img src="img/shots/scaling-replicas.webp" alt="Grafana panel with the replicas of frontend, auth-api and todos-api against their maximum during a load test" loading="lazy"><figcaption>Replicas against the maximum during a k6 run. The monthly window holds 3, and the load takes them to 4.</figcaption></figure>
+      <div class="video-row"><div class="vid" data-video="10"></div></div>
+    </div>
+  </section>
+
+  <!-- OBSERVE -->
+  <section class="section tint" id="observe">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">Five signals reach one dashboard <em>that answers the business.</em></h2>
+        <p class="fade">Metrics, logs, events, traces and alerts leave the services and meet in Grafana. Jaeger stays on 2.19, since 2.20 removed the v1 API that the Grafana data source calls, and a test against 2.22 answered 404.</p>
+      </div>
+      <div class="overview">
+        <figure class="diagram fade" data-zoom><img src="img/diagrams/observability-signals.webp" alt="Diagram of the five observability signals from the services to Grafana" loading="lazy"><figcaption>The five signals, numbered as in the list</figcaption></figure>
+        <ol class="legend" id="signals"></ol>
+      </div>
+
+      <div class="block">
+        <h3 class="sub fade">An alert travels from Prometheus to Slack in under two minutes</h3>
+        <p class="sub-p fade">A real test, with users-api scaled to zero replicas and then restored, in Bogotá time. The webhook address is a credential, so it lives in a file outside the repository and in a cluster Secret.</p>
+        <div class="tl fade" id="timeline"></div>
+        <div class="video-row two"><div class="vid" data-video="09"></div><div class="vid" data-video="08"></div></div>
+      </div>
+
+      <div class="block">
+        <h3 class="sub fade">ELK receives every log and every event within a minute</h3>
+        <p class="sub-p fade">Fluent Bit collects container logs and Kubernetes events. Logstash names the service, reads the level, keeps the JSON of the service apart and drops health probes before Elasticsearch stores them for 3 days. The JSON of auth-api once overwrote fields of Logstash, so it now lives under app, and Kibana 9.5 needs 1 GiB of Node heap or it dies on restart.</p>
+        <div class="code-row two">
+          <div class="code" id="codeAlert"></div>
+          <div class="code" id="codeLogstash"></div>
+        </div>
+        <ol class="notes cols" id="obsNotes"></ol>
+        <div class="video-row"><div class="vid" data-video="05"></div></div>
+      </div>
+
+      <div class="block">
+        <h3 class="sub fade">One request followed from the browser to the processor</h3>
+        <p class="sub-p fade">Creating an obligation produces one trace in Jaeger across frontend, todos-api and log-message-processor in 577 ms, and the log line of the processor carries the same trace id in Kibana. Signing in gives another trace across frontend, auth-api and users-api in 71 ms.</p>
+        <div class="pair">
+          <figure class="shot fade" data-zoom><img src="img/shots/jaeger-obligation-trace.webp" alt="Jaeger trace of an obligation across three services" loading="lazy"><figcaption>The trace in Jaeger</figcaption></figure>
+          <figure class="shot fade" data-zoom><img src="img/shots/kibana-trace-logs.webp" alt="Kibana showing the log line with the same trace id" loading="lazy"><figcaption>The same trace id in Kibana</figcaption></figure>
+        </div>
+        <div class="video-row"><div class="vid" data-video="06"></div></div>
+      </div>
+
+      <div class="block">
+        <h3 class="sub fade">Grafana opens on a dashboard of the business</h3>
+        <p class="sub-p fade">The business row answers what an accountant asks, and below it follow health, alerts, logs, traces and events, so an operator never leaves the dashboard to understand an incident.</p>
+        <div class="dash">
+          <figure class="shot fade" data-zoom><img src="img/shots/dashboard-business.webp" alt="Business row of the PlazoFiscal dashboard in Grafana" loading="lazy"><figcaption>The business row of the PlazoFiscal dashboard</figcaption></figure>
+          <ol class="legend small" id="dashboard"></ol>
+        </div>
+        <div class="video-row two"><div class="vid" data-video="03"></div><div class="vid" data-video="04"></div></div>
+      </div>
+
+      <div class="block">
+        <h3 class="sub fade">Kubecost shows the cost of each service from the same Prometheus</h3>
+        <p class="sub-p fade">Kubecost uses reference prices, so it shows how the cost splits between namespaces and services. The free tier covers up to 250 cores and 15 days of metrics.</p>
+        <div class="alts row fade" id="costAlts"></div>
+        <div class="video-row"><div class="vid" data-video="07"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGN-IN -->
+  <section class="section" id="signin">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">One sign-in with a second factor <em>in front of everything.</em></h2>
+        <p class="fade">Keycloak asks for a password and a six digit code before any tool or the application opens. It runs inside the cluster with no outside dependency, and Kibana, whose free tier has no single sign-on, sits behind oauth2-proxy like the rest. One cookie covers every tool for 8 hours.</p>
+      </div>
+      <div class="overview">
+        <figure class="diagram fade" data-zoom><img src="img/diagrams/sign-in-flow.webp" alt="Sequence of the sign-in through Traefik, oauth2-proxy and Keycloak" loading="lazy"><figcaption>The sign-in flow, numbered as in the list</figcaption></figure>
+        <ol class="legend" id="signinSteps"></ol>
+      </div>
+      <div class="code-row">
+        <div class="code" id="codeSignin"></div>
+        <div>
+          <div class="code" id="codeRealm"></div>
+          <ol class="notes" id="signinNotes"></ol>
+        </div>
+      </div>
+      <div class="roles-row">
+        <div class="roles fade" id="roles"></div>
+        <figure class="shot fade" data-zoom><img src="img/shots/sign-in-code.webp" alt="Keycloak asking for the one-time code" loading="lazy"><figcaption>The second step asks for the code, and a wrong one is refused</figcaption></figure>
+      </div>
+      <div class="video-row"><div class="vid" data-video="01"></div></div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section class="section dark" id="method">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">One card, one branch and <em>one pull request at a time.</em></h2>
+        <p class="fade">Juan Camilo Melo and Juan Felipe Garzon worked as the DevOps team of PlazoFiscal. Eleven issues became thirteen pull requests, each one with its evidence and every automatic check green before the merge.</p>
+      </div>
+      <div class="pipe" id="pipe">
+        <div class="pipe-line"><i id="pipeFill"></i><b id="pipeDot"></b></div>
+        <ol class="pipe-steps" id="pipeSteps"></ol>
+      </div>
+      <div class="method-grid">
+        <div class="cards fade"><h4>The eleven cards, in the order they were done</h4><div id="cards"></div></div>
+        <div>
+          <div class="checks fade"><h4>Checks on every pull request</h4><div id="checks"></div></div>
+          <div class="checks fade"><h4>One command for each task</h4><div id="commands"></div></div>
+        </div>
+      </div>
+      <h3 class="sub fade">What we found and fixed</h3>
+      <p class="sub-p fade">Real problems of the project, each with the cause we found in logs, metrics or changelogs, and the decision we took.</p>
+      <div class="lessons" id="lessons"></div>
+    </div>
+  </section>
+
+  <!-- EVIDENCE -->
+  <section class="section" id="evidence">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="rise">Every point of the course has <em>evidence you can repeat.</em></h2>
+        <p class="fade">Each point maps to its proof and to the command that repeats it. The full index, with screenshots, lives in the evidence document of the repository.</p>
+      </div>
+      <div class="comp fade">
+        <div class="comp-head"><span></span><span>Point</span><span>Proof</span><span>Repeat it with</span></div>
+        <div id="compliance"></div>
+      </div>
+      <h3 class="sub fade">Twelve recordings of the live platform</h3>
+      <p class="sub-p fade">Recorded on the reference machine at 1440p, with Spanish captions as the course was given in Spanish.</p>
+      <div class="library" id="library"></div>
+      <h3 class="sub fade">Documents</h3>
+      <div class="docs" id="docs"></div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="outro dark">
+    <div class="wrap outro-in">
+      <div class="dots dots-l" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i></div>
+      <h2 class="rise">No deadline <em>slips by.</em></h2>
+      <div class="outro-actions">
+        <a id="outroRepo" class="btn btn-amber" target="_blank" rel="noopener">Open the repository</a>
+        <a id="outroArch" class="btn btn-ghost" target="_blank" rel="noopener">Read the architecture</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span class="word">Plazo<b>Fiscal</b></span>
+    <p>An academic case of Plataformas II, Universidad Icesi, 2026, by Juan Camilo Melo and Juan Felipe Garzon. PlazoFiscal is an invented company with no link to any tax authority, and its figures are assumptions. Clients and users on the screens are examples.</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button type="button" class="lb-close">Close</button>
+  <div class="lb-scroll" data-lenis-prevent><img alt=""></div>
+</div>
+
+</body>
+</html>
