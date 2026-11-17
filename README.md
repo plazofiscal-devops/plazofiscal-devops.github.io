@@ -58,6 +58,6 @@ The panel of replicas in the scaling section is a screenshot of the PlazoFiscal 
 
 ## Identity
 
-Colors and type follow the application. Charcoal `#121212` is the canvas of the brand, amber `#f2c14e` marks what matters and is never body text, and red `#e05d5d` marks a problem. The dot calendar with one amber dot is the signature, and the wordmark sets Plazo light and Fiscal bold.
+The page is dark with frosted glass panels over slow ambient light, in the colors of the application. Amber `#f2c14e` marks what matters and is never body text, red marks a problem and green a result that held. The dot calendar with one amber dot is the signature, and the wordmark sets Plazo light and Fiscal bold.
 
 PlazoFiscal is an invented company for an academic exercise of Universidad Icesi, 2026. It has no link with any tax authority, and its figures are assumptions.
